@@ -1,5 +1,31 @@
 # .NET CORE 2.1 & Angular 6.1.6 Web Application
 
+## Getting Started
+
+1. Navigate to the `LiveStreams.Web/ClientApp` folder. (this is where the Angular app is located)
+        Then run:
+
+        npm install
+(this will install all of the NPM packages for the Angular app)
+
+2. Navigate to the `LiveStreams.Web/ClientApp` folder. 
+        Then run:
+
+        ng build
+(this will build the Angular app)
+
+3. Navigate to `LiveStrams.Web/` folder. (main folder for Web project)
+        Then run;
+
+        dotnet restore
+(this should install any dependecies that .NET needs)
+
+4. Navigate to `LiveStrams.Web/` folder.
+        Then run;
+
+        dotnet run
+(this should run the Web application at **[https://localhost:5001](https://localhost:5001)**)
+
 ## Dotnet EntityFramework Migrations
 
 First database create
