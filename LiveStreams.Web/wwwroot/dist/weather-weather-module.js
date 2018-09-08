@@ -89,7 +89,7 @@ var WeatherComponent = /** @class */ (function () {
                         this.forecasts = this.preloadService.data;
                         if (!!this.forecasts) return [3 /*break*/, 2];
                         _a = this;
-                        return [4 /*yield*/, this.http.get({ url: this.baseUrl + 'api/SampleData/WeatherForecasts', params: null })];
+                        return [4 /*yield*/, this.http.get({ url: this.baseUrl + 'weather/', params: null })];
                     case 1:
                         _a.forecasts = _b.sent();
                         _b.label = 2;

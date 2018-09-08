@@ -21,7 +21,7 @@ export class WeatherComponent implements OnInit {
   async ngOnInit() {
     this.forecasts = this.preloadService.data;
     if (!this.forecasts) {
-      this.forecasts = await this.http.get<WeatherForecast[]>({url: this.baseUrl + 'api/SampleData/WeatherForecasts', params: null});
+      this.forecasts = await this.http.get<WeatherForecast[]>({url: this.baseUrl + 'weather/', params: null});
     }
   }
 }

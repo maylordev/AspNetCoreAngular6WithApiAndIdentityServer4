@@ -37,7 +37,7 @@ namespace LiveStreams.Api
                 c.SwaggerDoc("v1", new Info
                 {
                     Version = "v1",
-                    Title = "LiveStreams.Web",
+                    Title = "LiveStreams.Api",
                     Description = "A Livestream aggregate site",
                     TermsOfService = "None",
                     Contact = new Contact

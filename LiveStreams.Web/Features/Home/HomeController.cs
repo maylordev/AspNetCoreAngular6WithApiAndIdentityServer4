@@ -10,6 +10,8 @@ namespace LiveStreamsApp.Features.Home
 {
     public class HomeController : Controller
     {
+        // gets called when going to "/" from a new session
+
         public IActionResult Index()
         {
             return View();

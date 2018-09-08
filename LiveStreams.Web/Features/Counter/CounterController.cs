@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LiveStreamsApp.Features.Counter
 {
+    // gets called when going to "/couter" from a new session
 	[Route("counter")]
     public class CounterController : Controller
     {
