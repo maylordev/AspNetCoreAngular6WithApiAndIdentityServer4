@@ -1,0 +1,7 @@
+@using LiveStreamsApp.Infrastructure
+@model IEnumerable<LiveStreamsApp.Features.Weather.WeatherModel>
+
+<app-root data-init='@Html.JsonFor(Model)'>
+    <div class="loader"></div>
+</app-root>
+@Html.LoadSpaScripts()

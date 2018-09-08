@@ -1,0 +1,12 @@
+{
+    "name": "live-streams-app",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "start": "npm start --prefix ./ClientApp",
+      "build": "npm run build --prefix ./ClientApp"
+    },
+    "author": "",
+    "license": "ISC"
+  }
