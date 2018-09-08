@@ -1,5 +1,6 @@
 # .NET CORE 2.1 & Angular 6.1.6 Web Application
 
+
 ## Getting Started
 
 1. Navigate to the `LiveStreams.Web/ClientApp` folder. (this is where the Angular app is located)
