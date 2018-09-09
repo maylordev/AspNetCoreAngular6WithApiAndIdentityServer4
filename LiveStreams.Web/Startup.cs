@@ -105,7 +105,7 @@ namespace LiveStreamsApp
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "LiveStreamsApp API V1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "LiveStreamsApp WEB V1");
                 });
             }
             else
@@ -115,10 +115,10 @@ namespace LiveStreamsApp
             }
 
             // Setup Cors
-            // app.UseCors(builder => builder
-            //     .AllowAnyOrigin()
-            //     .AllowAnyHeader()
-            //     .AllowAnyMethod());
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod());
 
             // app.UseHttpsRedirection();
             // app.UseCookiePolicy();

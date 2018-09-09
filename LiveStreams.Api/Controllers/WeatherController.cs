@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LiveStreams.Api.Models;
+using Microsoft.Extensions.Logging;
 
 namespace LiveStreams.Api.Controllers
 {
@@ -13,10 +14,18 @@ namespace LiveStreams.Api.Controllers
     [ApiController]
 	public class WeatherController : Controller
     {
+		private readonly ILogger _logger;
 		private static string[] Summaries = new[]
 	   {
 			"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 		};
+
+		public WeatherController(
+			ILogger<WeatherController> logger
+		)
+		{
+			_logger = logger;
+		}
 		// GET: /<controller>/
 		[Route("{*catch-all}")]
 		public IActionResult Index()
@@ -28,6 +37,8 @@ namespace LiveStreams.Api.Controllers
 				TemperatureC = rng.Next(-20, 55),
 				Summary = Summaries[rng.Next(Summaries.Length)]
 			});
+
+			_logger.LogInformation(1, "Weather.Index()");
 			// ReSharper disable once Mvc.ViewNotResolved
 			return View(forecasts);
 		}
