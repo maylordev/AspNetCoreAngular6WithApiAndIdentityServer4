@@ -79,7 +79,7 @@ var WeatherComponent = /** @class */ (function () {
         this.http = http;
         this.preloadService = preloadService;
         this.baseUrl = baseUrl;
-        this.apiUrl = "http://localhost:5050/";
+        this.apiUrl = "http://localhost:5050/api/";
     }
     WeatherComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {

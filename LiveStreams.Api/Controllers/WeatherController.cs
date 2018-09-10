@@ -7,40 +7,37 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LiveStreams.Api.Models;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace LiveStreams.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-	public class WeatherController : Controller
+    public class WeatherController : Controller
     {
-		private readonly ILogger _logger;
-		private static string[] Summaries = new[]
-	   {
-			"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-		};
+        private static string[] Summaries = new[]
+       {
+            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        };
 
-		public WeatherController(
-			ILogger<WeatherController> logger
-		)
-		{
-			_logger = logger;
-		}
-		// GET: /<controller>/
-		[Route("{*catch-all}")]
-		public IActionResult Index()
+        public WeatherController(
+        )
         {
-			var rng = new Random();
-			var forecasts = Enumerable.Range(1, 5).Select(c => new WeatherModel
-			{
-				DateFormatted = DateTime.Now.AddDays(c).ToString("d"),
-				TemperatureC = rng.Next(-20, 55),
-				Summary = Summaries[rng.Next(Summaries.Length)]
-			});
+        }
+        // GET: /<controller>/
+        [HttpGet]
+        [Route("{*catch-all}")]
+        public IActionResult Index()
+        {
+            var rng = new Random();
+            var forecasts = Enumerable.Range(1, 5).Select(c => new WeatherModel
+            {
+                DateFormatted = DateTime.Now.AddDays(c).ToString("d"),
+                TemperatureC = rng.Next(-20, 55),
+                Summary = Summaries[rng.Next(Summaries.Length)]
+            });
 
-			_logger.LogInformation(1, "Weather.Index()");
-			// ReSharper disable once Mvc.ViewNotResolved
-			return View(forecasts);
-		}
+            return Json(forecasts);
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace LiveStreamsApp.Features.Counter
 	[Route("counter")]
     public class CounterController : Controller
     {
+        [HttpGet]
 		[Route("{*catch-all}")]
         public IActionResult Index()
         {

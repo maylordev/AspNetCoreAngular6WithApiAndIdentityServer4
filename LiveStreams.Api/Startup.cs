@@ -28,9 +28,9 @@ namespace LiveStreams.Api
         {
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            
+
             // Add Swagger Auto Document Generation service
-			services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info
                 {
@@ -55,7 +55,7 @@ namespace LiveStreams.Api
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
-            IApplicationBuilder app, 
+            IApplicationBuilder app,
             IHostingEnvironment env,
             ILoggerFactory loggerFactory
             )
@@ -67,11 +67,14 @@ namespace LiveStreams.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                // Setup Swagger Auto Document Generation
+                // Enable middleware to serve generated Swagger as a JSON endpoint.
                 app.UseSwagger();
+
+                // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+                // specifying the Swagger JSON endpoint.
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "LiveStreamsApp API V1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 });
             }
             else
