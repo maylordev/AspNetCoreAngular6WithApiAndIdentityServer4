@@ -77,6 +77,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _core_preload_preload_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/preload/preload.service */ "./src/app/core/preload/preload.service.ts");
+/* harmony import */ var _core_logger_logger_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core/logger/logger.service */ "./src/app/core/logger/logger.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -88,9 +89,11 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var AppComponent = /** @class */ (function () {
-    function AppComponent(preloadService, elementRef) {
+    function AppComponent(preloadService, elementRef, logger) {
         this.title = 'app';
+        logger.info("Starting App.Component");
         preloadService.data = JSON.parse(elementRef.nativeElement.getAttribute('data-init'));
     }
     AppComponent = __decorate([
@@ -100,7 +103,8 @@ var AppComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")]
         }),
         __metadata("design:paramtypes", [_core_preload_preload_service__WEBPACK_IMPORTED_MODULE_1__["PreloadService"],
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"]])
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"],
+            _core_logger_logger_service__WEBPACK_IMPORTED_MODULE_2__["LoggerService"]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -131,6 +135,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core_core_module__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./core/core.module */ "./src/app/core/core.module.ts");
 /* harmony import */ var _pageNotFound_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pageNotFound.component */ "./src/app/pageNotFound.component.ts");
 /* harmony import */ var _nav_menu_nav_menu_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./nav-menu/nav-menu.component */ "./src/app/nav-menu/nav-menu.component.ts");
+/* harmony import */ var _core_logger_logger_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./core/logger/logger.service */ "./src/app/core/logger/logger.service.ts");
+/* harmony import */ var _core_logger_consoleLogger_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./core/logger/consoleLogger.service */ "./src/app/core/logger/consoleLogger.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -142,6 +148,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 // Material
+
+
 
 
 
@@ -172,7 +180,8 @@ var AppModule = /** @class */ (function () {
                 _app_routes__WEBPACK_IMPORTED_MODULE_6__["AppRoutingModule"],
             ],
             providers: [
-                _core_index__WEBPACK_IMPORTED_MODULE_7__["HttpClientService"]
+                _core_index__WEBPACK_IMPORTED_MODULE_7__["HttpClientService"],
+                { provide: _core_logger_logger_service__WEBPACK_IMPORTED_MODULE_12__["LoggerService"], useClass: _core_logger_consoleLogger_service__WEBPACK_IMPORTED_MODULE_13__["ConsoleLoggerService"] }
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"]]
         })
@@ -443,6 +452,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _logger_logger_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../logger/logger.service */ "./src/app/core/logger/logger.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -490,12 +500,14 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var HttpClientService = /** @class */ (function () {
-    function HttpClientService(errorHandler) {
+    function HttpClientService(errorHandler, logger) {
         this._apiUrl = "http://localhost:5050/api/";
-        this.errorHandler = errorHandler;
+        this._errorHandler = errorHandler;
+        this._logger = logger;
         // The ApiClient wraps calls to the underlying Axios client.
-        this.axiosClient = axios__WEBPACK_IMPORTED_MODULE_1___default.a.create({
+        this._axiosClient = axios__WEBPACK_IMPORTED_MODULE_1___default.a.create({
             timeout: 3000,
             headers: {
                 "X-Initialized-At": Date.now().toString()
@@ -509,13 +521,14 @@ var HttpClientService = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.axiosClient.request({
+                        return [4 /*yield*/, this._axiosClient.request({
                                 method: "get",
                                 url: this._apiUrl + options.url,
                                 params: options.params
                             })];
                     case 1:
                         axiosResponse = _a.sent();
+                        this._logger.info("GET --> " + options.url, axiosResponse);
                         return [2 /*return*/, (axiosResponse.data)];
                     case 2:
                         error_1 = _a.sent();
@@ -528,7 +541,7 @@ var HttpClientService = /** @class */ (function () {
     // Errors can occur for a variety of reasons. Normalize the error response so that
     // the calling context can assume a standard error structure.
     HttpClientService.prototype.normalizeError = function (error) {
-        this.errorHandler.handleError(error);
+        this._errorHandler.handleError(error);
         // NOTE: Since I'm not really dealing with a production API, this doesn't really
         // normalize anything yet
         return ({
@@ -539,7 +552,8 @@ var HttpClientService = /** @class */ (function () {
     };
     HttpClientService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
-        __metadata("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ErrorHandler"]])
+        __metadata("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ErrorHandler"],
+            _logger_logger_service__WEBPACK_IMPORTED_MODULE_2__["LoggerService"]])
     ], HttpClientService);
     return HttpClientService;
 }());
@@ -584,6 +598,121 @@ __webpack_require__.r(__webpack_exports__);
 // export * from './rxjs-extensions';
 // export * from './spinner/spinner.service';
 // export * from './toast/toast.service';
+
+
+
+/***/ }),
+
+/***/ "./src/app/core/logger/consoleLogger.service.ts":
+/*!******************************************************!*\
+  !*** ./src/app/core/logger/consoleLogger.service.ts ***!
+  \******************************************************/
+/*! exports provided: isDebugMode, ConsoleLoggerService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isDebugMode", function() { return isDebugMode; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConsoleLoggerService", function() { return ConsoleLoggerService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+var isDebugMode = _environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].isDebugMode;
+var noop = function () { return undefined; };
+var ConsoleLoggerService = /** @class */ (function () {
+    function ConsoleLoggerService() {
+    }
+    Object.defineProperty(ConsoleLoggerService.prototype, "info", {
+        get: function () {
+            if (isDebugMode) {
+                return console.info.bind(console);
+            }
+            else {
+                return noop;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ConsoleLoggerService.prototype, "warn", {
+        get: function () {
+            if (isDebugMode) {
+                return console.warn.bind(console);
+            }
+            else {
+                return noop;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ConsoleLoggerService.prototype, "error", {
+        get: function () {
+            if (isDebugMode) {
+                return console.error.bind(console);
+            }
+            else {
+                return noop;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ConsoleLoggerService.prototype.invokeConsoleMethod = function (type, args) {
+        var logFn = (console)[type] || console.log || noop;
+        logFn.apply(console, [args]);
+    };
+    ConsoleLoggerService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])()
+    ], ConsoleLoggerService);
+    return ConsoleLoggerService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/core/logger/logger.service.ts":
+/*!***********************************************!*\
+  !*** ./src/app/core/logger/logger.service.ts ***!
+  \***********************************************/
+/*! exports provided: Logger, LoggerService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Logger", function() { return Logger; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoggerService", function() { return LoggerService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var Logger = /** @class */ (function () {
+    function Logger() {
+    }
+    return Logger;
+}());
+
+var LoggerService = /** @class */ (function () {
+    function LoggerService() {
+    }
+    LoggerService.prototype.invokeConsoleMethod = function (type, args) { };
+    LoggerService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])()
+    ], LoggerService);
+    return LoggerService;
+}());
 
 
 
@@ -846,7 +975,8 @@ __webpack_require__.r(__webpack_exports__);
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 var environment = {
-    production: false
+    production: false,
+    isDebugMode: true
 };
 
 

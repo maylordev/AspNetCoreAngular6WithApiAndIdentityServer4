@@ -14,9 +14,8 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { PageNotFoundComponent } from './pageNotFound.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { WeatherComponent } from './weather/weather.component';
+import { LoggerService } from './core/logger/logger.service';
+import { ConsoleLoggerService } from './core/logger/consoleLogger.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +37,8 @@ import { WeatherComponent } from './weather/weather.component';
     AppRoutingModule,
   ],
   providers: [
-    HttpClientService
+    HttpClientService,
+    { provide: LoggerService, useClass: ConsoleLoggerService }
   ],
   bootstrap: [AppComponent]
 })

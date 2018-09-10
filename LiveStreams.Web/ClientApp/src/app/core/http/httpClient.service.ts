@@ -6,6 +6,8 @@ import {
     HttpClient
  } from '@angular/common/http';
 
+ import { LoggerService } from '../logger/logger.service'
+
  export interface Params {
   [ key: string ]: any;
 }
@@ -23,21 +25,26 @@ export interface ErrorResponse {
 
 @Injectable()
 export class HttpClientService {
-  private axiosClient: AxiosInstance;
-  private errorHandler: ErrorHandler;
+  private _axiosClient: AxiosInstance;
+  private _errorHandler: ErrorHandler;
+  private _logger: LoggerService;
   private _apiUrl: string = "http://localhost:5050/api/";
 
-  constructor( errorHandler: ErrorHandler ) {
+  constructor( 
+      errorHandler: ErrorHandler,
+      logger: LoggerService
+    ) {
 
-      this.errorHandler = errorHandler;
+        this._errorHandler = errorHandler;
+        this._logger = logger;
 
-      // The ApiClient wraps calls to the underlying Axios client.
-      this.axiosClient = axios.create({
-          timeout: 3000,
-          headers: {
-              "X-Initialized-At": Date.now().toString()
-          }
-      });
+        // The ApiClient wraps calls to the underlying Axios client.
+        this._axiosClient = axios.create({
+            timeout: 3000,
+            headers: {
+                "X-Initialized-At": Date.now().toString()
+            }
+        });
 
   }
 
@@ -45,12 +52,15 @@ export class HttpClientService {
 
       try {
 
-          var axiosResponse = await this.axiosClient.request<T>({
+          var axiosResponse = await this._axiosClient.request<T>({
               method: "get",
               url: this._apiUrl + options.url,
               params: options.params
           });
 
+          
+          this._logger.info(`GET --> ${options.url}`, axiosResponse);
+          
           return( axiosResponse.data );
 
       } catch ( error ) {
@@ -65,7 +75,7 @@ export class HttpClientService {
   // the calling context can assume a standard error structure.
   private normalizeError( error: any ) : ErrorResponse {
 
-      this.errorHandler.handleError( error );
+      this._errorHandler.handleError( error );
 
       // NOTE: Since I'm not really dealing with a production API, this doesn't really
       // normalize anything yet
