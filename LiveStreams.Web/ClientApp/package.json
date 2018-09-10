@@ -1,10 +1,10 @@
 {
-  "name": "LiveStreamsApp",
+  "name": "live-streams-app",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng build --watch --dev",
+    "start": "ng build",
     "build": "ng build --extract-css=false",
     "build:ssr": "npm run build -- --app=ssr --output-hashing=media",
     "test": "ng test",

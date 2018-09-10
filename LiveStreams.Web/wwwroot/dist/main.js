@@ -492,6 +492,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 var HttpClientService = /** @class */ (function () {
     function HttpClientService(errorHandler) {
+        this._apiUrl = "http://localhost:5050/api/";
         this.errorHandler = errorHandler;
         // The ApiClient wraps calls to the underlying Axios client.
         this.axiosClient = axios__WEBPACK_IMPORTED_MODULE_1___default.a.create({
@@ -510,7 +511,7 @@ var HttpClientService = /** @class */ (function () {
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, this.axiosClient.request({
                                 method: "get",
-                                url: options.url,
+                                url: this._apiUrl + options.url,
                                 params: options.params
                             })];
                     case 1:

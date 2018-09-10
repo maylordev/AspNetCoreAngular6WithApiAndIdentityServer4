@@ -17,13 +17,12 @@ export class WeatherComponent implements OnInit {
     private preloadService: PreloadService<WeatherForecast[]>
   ) {
     this.baseUrl = baseUrl;
-    this.apiUrl = "http://localhost:5050/api/";
   }
 
   async ngOnInit() {
     this.forecasts = this.preloadService.data;
     if (!this.forecasts) {
-      this.forecasts = await this.http.get<WeatherForecast[]>({url: this.apiUrl + 'weather/', params: null});
+      this.forecasts = await this.http.get<WeatherForecast[]>({url: 'weather/', params: null});
     }
   }
 }

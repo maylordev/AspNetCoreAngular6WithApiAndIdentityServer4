@@ -79,7 +79,6 @@ var WeatherComponent = /** @class */ (function () {
         this.http = http;
         this.preloadService = preloadService;
         this.baseUrl = baseUrl;
-        this.apiUrl = "http://localhost:5050/api/";
     }
     WeatherComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -90,7 +89,7 @@ var WeatherComponent = /** @class */ (function () {
                         this.forecasts = this.preloadService.data;
                         if (!!this.forecasts) return [3 /*break*/, 2];
                         _a = this;
-                        return [4 /*yield*/, this.http.get({ url: this.apiUrl + 'weather/', params: null })];
+                        return [4 /*yield*/, this.http.get({ url: 'weather/', params: null })];
                     case 1:
                         _a.forecasts = _b.sent();
                         _b.label = 2;

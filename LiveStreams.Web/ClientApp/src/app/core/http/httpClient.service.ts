@@ -25,6 +25,7 @@ export interface ErrorResponse {
 export class HttpClientService {
   private axiosClient: AxiosInstance;
   private errorHandler: ErrorHandler;
+  private _apiUrl: string = "http://localhost:5050/api/";
 
   constructor( errorHandler: ErrorHandler ) {
 
@@ -46,7 +47,7 @@ export class HttpClientService {
 
           var axiosResponse = await this.axiosClient.request<T>({
               method: "get",
-              url: options.url,
+              url: this._apiUrl + options.url,
               params: options.params
           });
 
