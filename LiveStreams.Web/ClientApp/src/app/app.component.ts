@@ -1,6 +1,6 @@
-import { Component, ElementRef } from '@angular/core';
-import { PreloadService } from './core/preload/preload.service';
-import { LoggerService } from './core/logger/logger.service';
+import {Component, ElementRef} from '@angular/core';
+import {PreloadService} from './core/preload/preload.service';
+import {LoggerService} from './core/logger/logger.service';
 
 @Component({
   selector: 'app-root',
@@ -9,14 +9,15 @@ import { LoggerService } from './core/logger/logger.service';
 })
 export class AppComponent {
   constructor(
-    preloadService: PreloadService<any>, 
+    preloadService: PreloadService<any>,
     elementRef: ElementRef,
     logger: LoggerService
-    ){
+  ) {
+    logger.info('Starting App.Component');
 
-    logger.info("Starting App.Component");
-
-    preloadService.data = JSON.parse(elementRef.nativeElement.getAttribute('data-init'));
+    preloadService.data = JSON.parse(
+      elementRef.nativeElement.getAttribute('data-init')
+    );
   }
   title = 'app';
 }

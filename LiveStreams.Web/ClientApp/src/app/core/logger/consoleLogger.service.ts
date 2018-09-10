@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
+import { Injectable } from "@angular/core";
+import { environment } from "../../../environments/environment";
 
-import { Logger } from './logger.service';
+import { Logger } from "./logger.service";
 
 export let isDebugMode = environment.isDebugMode;
 
@@ -9,7 +9,13 @@ const noop = (): any => undefined;
 
 @Injectable()
 export class ConsoleLoggerService implements Logger {
-
+  get clear() {
+    if (isDebugMode) {
+      return console.clear.bind(console);
+    } else {
+      return noop;
+    }
+  }
   get info() {
     if (isDebugMode) {
       return console.info.bind(console);
@@ -33,9 +39,17 @@ export class ConsoleLoggerService implements Logger {
       return noop;
     }
   }
-  
+
+  get table() {
+    if (isDebugMode) {
+      return console.table.bind(console);
+    } else {
+      return noop;
+    }
+  }
+
   invokeConsoleMethod(type: string, args?: any): void {
-    const logFn: Function = (console)[type] || console.log || noop;
+    const logFn: Function = console[type] || console.log || noop;
     logFn.apply(console, [args]);
   }
 }
