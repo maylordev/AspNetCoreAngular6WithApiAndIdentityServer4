@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
+using LiveStreams.Api.Models;
 
 namespace LiveStreams.Api
 {
@@ -26,6 +27,10 @@ namespace LiveStreams.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Add(new ServiceDescriptor(typeof(LiveStreamsAppContext),
+                new LiveStreamsAppContext(Configuration.GetConnectionString("DefaultConnection")))
+            );
+
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

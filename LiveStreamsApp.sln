@@ -1,9 +1,11 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveStreams.Web", "..\LiveStreamsApp\LiveStreams.Web\LiveStreams.Web.csproj", "{8D88559A-DAFE-48F2-833F-0C1D025ECB5F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveStreams.Web", "LiveStreams.Web\LiveStreams.Web.csproj", "{8D88559A-DAFE-48F2-833F-0C1D025ECB5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveStreams.Api", "..\LiveStreamsApp\LiveStreams.Api\LiveStreams.Api.csproj", "{AB4A5BF3-0F82-4F21-A0CB-58F1C6A082C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveStreams.Api", "LiveStreams.Api\LiveStreams.Api.csproj", "{AB4A5BF3-0F82-4F21-A0CB-58F1C6A082C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveStreams.IdentityServer4", "LiveStreams.IdentityServer4\LiveStreams.IdentityServer4.csproj", "{AEE5CC90-E9D6-466D-9650-7D18428B2430}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,5 +21,9 @@ Global
 		{AB4A5BF3-0F82-4F21-A0CB-58F1C6A082C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB4A5BF3-0F82-4F21-A0CB-58F1C6A082C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB4A5BF3-0F82-4F21-A0CB-58F1C6A082C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEE5CC90-E9D6-466D-9650-7D18428B2430}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEE5CC90-E9D6-466D-9650-7D18428B2430}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEE5CC90-E9D6-466D-9650-7D18428B2430}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEE5CC90-E9D6-466D-9650-7D18428B2430}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
