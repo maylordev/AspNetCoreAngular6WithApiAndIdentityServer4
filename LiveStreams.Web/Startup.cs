@@ -36,12 +36,11 @@ namespace LiveStreamsApp
         {
             services.AddRouting(opts => opts.LowercaseUrls = true);
             // Add Cors
-			// services.AddCors();
-            
+            // services.AddCors();
+
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddFeatureFolders();
-            
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
             // allows for instances of INodeServices in your application. 
             // INodeServices is the API through which .NET code can make calls into JavaScript that runs in a Node environment.
             services.AddNodeServices();
@@ -60,11 +59,11 @@ namespace LiveStreamsApp
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "wwwroot/dist";
+                configuration.RootPath = "ClientApp/dist";
             });
 
             // Add Swagger Auto Document Generation service
-			services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info
                 {
@@ -97,7 +96,7 @@ namespace LiveStreamsApp
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

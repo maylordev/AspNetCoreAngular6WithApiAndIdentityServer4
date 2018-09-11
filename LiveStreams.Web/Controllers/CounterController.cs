@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using LiveStreamsApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LiveStreamsApp.Features.Home
+namespace LiveStreamsApp.Controllers
 {
-    public class HomeController : Controller
+    public class CounterController : Controller
     {
         // gets called when going to "/" from a new session
 

@@ -1,83 +1,79 @@
 # .NET CORE 2.1 & Angular 6.1.6 Web Application
 
+# Getting Started
 
-## Getting Started
+## In your first terminal / bash/ command prompt
 
-1. Navigate to the `LiveStreams.Web/ClientApp` folder. (this is where the Angular app is located)
-        Then run:
+1.   Navigate to the `LiveStreams.Web/ClientApp` folder. (this is where the Angular app is located)
+     Then run:
 
-        npm install
-(this will install all of the NPM packages for the Angular app)
+             npm install
 
-2. Navigate to the `LiveStreams.Web/ClientApp` folder. 
-        Then run:
+     (this will install all of the NPM packages for the Angular app)
 
-        ng build
-(this will build the Angular app)
+2.   Stay in the `LiveStreams.Web/ClientApp` folder and run:
 
-3. Navigate to `LiveStrams.Web/` folder. (main folder for Web project)
-        Then run;
+             ng build
+
+     (this will build the Angular app)
+
+3.   Navigate back to `LiveStrams.Web/` folder. (main folder for Web project)
+     Then run:
+
+             dotnet restore
+
+     (this should install any dependecies that .NET needs)
+
+4.   Stay in the `LiveStrams.Web/` folder.
+     Then run:
+
+             dotnet run
+
+     (this should run the Web application at [https://localhost:5001](https://localhost:5001))
+
+## In your second terminal / bash/ command prompt
+
+1.   Navigate to the `/LiveStreams.Api/` folder. (main folder for the API project)
+     Then run:
+
+          dotnet restore
+
+2.   Stay in the `/LiveStreams.Api/` folder and run:
+
+     dotnet run
+
+(this should run the API on [https://localhost:5050/api](https://localhost:5050/api))
+
+# ASP.NET Core + Angular 6.1 + API server + IdentityServer 4
+
+This solution has 3 projects.
+
+1. **LiveStreams.Api** --> Intended to be the API to send data from the database to the Web Client. Runs locally on [http://localhost:5050](http://localhost:5050)
+
+Restore dependencies:
 
         dotnet restore
-(this should install any dependecies that .NET needs)
 
-4. Navigate to `LiveStrams.Web/` folder.
-        Then run;
+Run before using project
 
         dotnet run
-(this should run the Web application at **[https://localhost:5001](https://localhost:5001)**)
 
-## Dotnet EntityFramework Migrations
+2. **LiveStreams.IdentityServer4** --> Templated from the [dotnet templates](https://github.com/IdentityServer/IdentityServer4.Templates)
 
-First database create
+Install with:
 
-        dotnet ef migrations add InitialCreate
-    
-Update the database
+        dotnet new -i identityserver4.templates
 
-        dotnet ef database update
+Then using:
 
+        dotnet new is4aspid
 
-## BuildBundlerMinifier
+3. **LiveStreams.Web** --> Intended to be the Web Client project. This serves the Angular 6 application. It runs locally on [http://localhost:5001](http://localhost:5001)
 
-        dotnet bundle
+Restore dependencies:
 
-This is the main function. Running dotnet bundle will automatically find the bundleconfig.json file if it exist in the working directory.
+        dotnet restore
 
-        dotnet bundle clean
+Run before using project
 
-Executing dotnet bundle clean will delete all output files from disk.
-
-        dotnet bundle watch
-
-To automatically run the bundler when input files change, call dotnet bundle watch. This will monitor any file changes to input files in the working directory and execute the bundler automatically.
-
-        dotnet bundle help
-
-Get help on how to use the CLI.
-
-
-
-
-
-# MVC + Angular + Features Design Pattern
-I would like to thank [Mikelunn](https://medium.com/@LunnCheck/a-mini-spa-approach-with-angular-and-net-core-mvc-bb3a35da9eba) for [this wonderful template](https://github.com/mikelunn/net-core-mvc-angular)
-## Architecture
-![Single App Component](https://github.com/mikelunn/net-core-mvc-angular/blob/master/AngularMvc.png)
-
-With this approach, the MVC framework handles the rendering of the app shell, and any other features that just display data to the user. Then I use Angular for features that involve a lot of partial page refreshing. And rather than pulling in the complexity of server-side pre-rendering into my projects, I chose to use a very simple method of data pre-loading.
-By not replacing my server-side framework entirely with a client-side framework, I feel that much complexity is reduced within my client-side code. A lot of infrastructure related code is also moved out of my SPA app and back into the server side where it belongs. So let’s look at the key components of this approach.
-
-## Feature Modules
-With this approach I make sure each mini-spa is accessed with a good ‘ole fashioned full page refresh. The server then retrieves data from the backend, preloads the view with data, and renders a simple html page that contains the app component tag and related script dependencies.
-
-What I like about this approach is that it allows me to handle authorization logic on the server, as well as retrieve data from the back end before redrawing the page. So every mini spa in my application will follow this approach.
-At the surface, this approach may seem somewhat reckless. Because if a user is accessing Feature B, we wouldn’t want to unnecessarily include Feature C dependencies. This simply would not scale well. By taking a feature module approach, i’m able to keep my root module as thin as possible and lazy load each individual feature on demand.
-
-## Preloading Feature Modules
-By preloading my views with data i’m able to increase the initial page load of each mini spa. I use a simple service to hold the initial state of each feature, and the root component uses this service to set the initial data.
-I also needed a way to dynamically inject the angular-cli generated app scripts into my razor pages. So I decided to create a simple html helper extension that just reads the index.html file from the dist folder.
-
-Lastly, we need to tell the server how to handle routes within our spa application. There are many examples of handling this with custom routing middleware. And this was how I initially was handling my spa fallback routes. But I haven’t had any issue with just specifying the fallback using route attributes. I find it a little more explicit than the middleware approach.
-
-Just to recap. This post was not meant to be a step by step guide to using Angular with Net Core MVC, nor do I consider it “the right way” to use the two frameworks together. I just wanted to share an approach that I have been successful with, and I hope it may help you be successful on a future project.
+        dotnet run

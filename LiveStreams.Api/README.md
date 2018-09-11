@@ -2,13 +2,16 @@
 
 ## Getting Started
 
-1.   Navigate to root folder `/LiveStreams.Api` and run:
+1.   Navigate to the `/LiveStreams.Api/` folder. (main folder for the API project)
+     Then run:
 
-     dotnet restore
+          dotnet restore
 
-2.   Navigate to root folder `/LiveStreams.Api` and run:
+2.   Stay in the `/LiveStreams.Api/` folder and run:
 
      dotnet run
+
+(this should run the API on [https://localhost:5050/api](https://localhost:5050/api))
 
 ## Swagger
 
@@ -16,7 +19,7 @@ Once web server is running, open your web browser and go to [http://localhost:50
 
 To see Swagger documentation, you must be in **DEVELOPMENT** mode and not `production` or `staging`. Then go to [https://localhost:5050/swagger](https://localhost:5050/swagger)
 
-## Migrations
+## Entity Framework Migrations
 
 First migration:
 
