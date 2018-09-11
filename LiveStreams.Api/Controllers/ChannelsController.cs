@@ -1,4 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using LiveStreams.Api.Models;
+using LiveStreams.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -9,13 +13,21 @@ namespace LiveStreams.Api.Controllers
     [ApiController]
     public class ChannelsController : Controller
     {
-        [HttpGet]
-        [Route("{*catch-all}")]
-        public IActionResult Get()
-        {
-            LiveStreamsAppContext context = HttpContext.RequestServices.GetService(typeof(LiveStreams.Api.Models.LiveStreamsAppContext)) as LiveStreamsAppContext;
+        private readonly IChannelRepository _channelRepo;
 
-            return Json(context.GetAllChannels());
+        public ChannelsController(
+            IChannelRepository channelRepo
+        )
+        {
+            _channelRepo = channelRepo;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<ChannelModel>>> Get()
+        {
+            var channels = await _channelRepo.GetAllChannels();
+
+            return channels.ToList();
         }
 
     }

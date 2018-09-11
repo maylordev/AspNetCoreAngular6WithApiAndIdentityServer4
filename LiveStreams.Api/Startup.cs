@@ -6,6 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using LiveStreams.Api.Models;
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore;
+using LiveStreams.Api.Repositories;
 
 namespace LiveStreams.Api
 {
@@ -27,9 +30,16 @@ namespace LiveStreams.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Add(new ServiceDescriptor(typeof(LiveStreamsAppContext),
-                new LiveStreamsAppContext(Configuration.GetConnectionString("DefaultConnection")))
-            );
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddSingleton(_ => Configuration);
+
+            services.AddDbContext<LiveStreamsAppContext>(options =>
+            {
+                options.UseMySql(connectionString);
+            });
+
+            services.AddScoped<DbContext, LiveStreamsAppContext>();
+            services.AddScoped<IChannelRepository, ChannelRepository>();
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -95,6 +105,15 @@ namespace LiveStreams.Api
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                if (!serviceScope.ServiceProvider.GetService<LiveStreamsAppContext>().AllMigrationsApplied())
+                {
+                    serviceScope.ServiceProvider.GetService<LiveStreamsAppContext>().Database.Migrate();
+                    serviceScope.ServiceProvider.GetService<LiveStreamsAppContext>().EnsureSeeded();
+                }
+            }
         }
     }
 }
